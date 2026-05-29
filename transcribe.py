@@ -40,19 +40,28 @@ def main():
         print(f"Нет MP3-файлов в папке {INPUT_DIR}/")
         return
 
+    todo = [f for f in mp3_files if not (OUTPUT_DIR / (f.stem + ".txt")).exists()]
+    done = [f for f in mp3_files if (OUTPUT_DIR / (f.stem + ".txt")).exists()]
+
+    if done:
+        print(f"Уже готово ({len(done)}):")
+        for f in done:
+            print(f"  ✓ {f.name}")
+    print(f"\nБудет обработано: {len(todo)} из {len(mp3_files)}")
+    if not todo:
+        print("Нечего делать.")
+        return
+    print()
+
     print(f"Загружаю модель в память...")
     model = WhisperModel("models", device="cpu", compute_type="int8")
 
     print(f"Модель загружена. Файлов для обработки: {len(mp3_files)}\n")
 
-    for i, audio_path in enumerate(mp3_files, 1):
+    for i, audio_path in enumerate(todo, 1):
         output_path = OUTPUT_DIR / (audio_path.stem + ".txt")
 
-        if output_path.exists():
-            print(f"[{i}/{len(mp3_files)}] Пропускаю (уже есть): {output_path.name}")
-            continue
-
-        print(f"[{i}/{len(mp3_files)}] Транскрибирую: {audio_path.name}")
+        print(f"[{i}/{len(todo)}] Транскрибирую: {audio_path.name}")
         segments, info = model.transcribe(str(audio_path), language="ru", beam_size=5)
         texts = []
         with tqdm(total=round(info.duration), unit="сек", desc="  прогресс") as bar:
