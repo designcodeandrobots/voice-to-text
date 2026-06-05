@@ -1,7 +1,7 @@
 #!/usr/bin/env .venv/bin/python3
 """
-Транскрибирует все MP3 из папки input/ в TXT в папку output/.
-Использует faster-whisper с моделью large-v3-turbo.
+Transcribes all MP3 files from the input/ folder into TXT files in the output/ folder.
+Uses faster-whisper with the large-v3-turbo model.
 """
 
 import sys
@@ -12,7 +12,7 @@ try:
     from huggingface_hub import snapshot_download
     from tqdm import tqdm
 except ImportError:
-    print("Установите зависимости: pip install faster-whisper tqdm")
+    print("Install dependencies: pip install faster-whisper tqdm")
     sys.exit(1)
 
 MODEL_SIZE = "large-v3-turbo"
@@ -23,13 +23,13 @@ OUTPUT_DIR = Path("output")
 
 
 def download_model():
-    print(f"Скачиваю модель {MODEL_SIZE} (~1.6 GB)...")
+    print(f"Downloading model {MODEL_SIZE} (~1.6 GB)...")
     snapshot_download(
         repo_id=MODEL_REPO,
         local_dir=None,
         tqdm_class=tqdm,
     )
-    print("Модель скачана.\n")
+    print("Model downloaded.\n")
 
 
 def main():
@@ -37,34 +37,33 @@ def main():
 
     mp3_files = sorted(INPUT_DIR.glob("*.mp3"))
     if not mp3_files:
-        print(f"Нет MP3-файлов в папке {INPUT_DIR}/")
+        print(f"No MP3 files found in {INPUT_DIR}/")
         return
 
     todo = [f for f in mp3_files if not (OUTPUT_DIR / (f.stem + ".txt")).exists()]
     done = [f for f in mp3_files if (OUTPUT_DIR / (f.stem + ".txt")).exists()]
 
     if done:
-        print(f"Уже готово ({len(done)}):")
+        print(f"Already done ({len(done)}):")
         for f in done:
             print(f"  ✓ {f.name}")
-    print(f"\nБудет обработано: {len(todo)} из {len(mp3_files)}")
+    print(f"\nTo process: {len(todo)} of {len(mp3_files)}")
     if not todo:
-        print("Нечего делать.")
+        print("Nothing to do.")
         return
     print()
 
-    print(f"Загружаю модель в память...")
+    print("Loading model into memory...")
     model = WhisperModel("models", device="cpu", compute_type="int8")
-
-    print(f"Модель загружена. Файлов для обработки: {len(mp3_files)}\n")
+    print(f"Model loaded. Files to process: {len(todo)}\n")
 
     for i, audio_path in enumerate(todo, 1):
         output_path = OUTPUT_DIR / (audio_path.stem + ".txt")
 
-        print(f"[{i}/{len(todo)}] Транскрибирую: {audio_path.name}")
+        print(f"[{i}/{len(todo)}] Transcribing: {audio_path.name}")
         segments, info = model.transcribe(str(audio_path), language="ru", beam_size=5)
         texts = []
-        with tqdm(total=round(info.duration), unit="сек", desc="  прогресс") as bar:
+        with tqdm(total=round(info.duration), unit="sec", desc="  progress") as bar:
             pos = 0
             for segment in segments:
                 texts.append(segment.text.strip())
@@ -75,9 +74,9 @@ def main():
         text = " ".join(texts)
         output_path.write_text(text, encoding="utf-8")
 
-        print(f"  Сохранено: {output_path.name}\n")
+        print(f"  Saved: {output_path.name}\n")
 
-    print("Всё готово.")
+    print("All done.")
 
 
 if __name__ == "__main__":
