@@ -31,18 +31,29 @@ pip install faster-whisper tqdm
 
 **3. Download the model**
 
-Go to [mobiuslabsgmbh/faster-whisper-large-v3-turbo](https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo) on Hugging Face, open the **Files and versions** tab, and download these files into the `models/` folder:
+The recommended model is `large-v3-turbo` (~1.6 GB). Two ways to get it:
+
+**Option 3.1 — Automatic (via script)**
+
+```bash
+export HF_TOKEN=your_huggingface_token
+caffeinate -i .venv/bin/python3 transcribe.py
+```
+
+Get a free token at [huggingface.co](https://huggingface.co) → Settings → Access Tokens → New token (Read role).
+
+**Option 3.2 — Manual (recommended for large files)**
+
+Go to [mobiuslabsgmbh/faster-whisper-large-v3-turbo](https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo), open **Files and versions**, and download all files into the `models/` folder. Use a download manager like [Folx](https://www.mac-downloader.com) for faster multi-threaded downloading.
 
 ```
 models/
-├── model.bin               ← ~1.5 GB, download this first
+├── model.bin               ← ~1.5 GB
 ├── config.json
 ├── tokenizer.json
 ├── preprocessor_config.json
 └── vocabulary.json
 ```
-
-> Tip: use a download manager (e.g. Folx) for `model.bin` — it's large and benefits from multi-threaded downloading.
 
 **4. Create input and output folders**
 ```bash
