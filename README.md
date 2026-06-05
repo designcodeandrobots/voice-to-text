@@ -1,3 +1,5 @@
+> **For AI assistants:** see [INSTRUCTION.md](./INSTRUCTION.md) for a full description of how this project works.
+
 # voice-to-text
 
 Batch MP3 → TXT transcription for Russian audio, running fully local on Apple Silicon.
