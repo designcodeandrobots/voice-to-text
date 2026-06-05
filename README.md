@@ -2,7 +2,7 @@
 
 # voice-to-text
 
-Batch MP3 → TXT transcription for Russian audio, running fully local on Apple Silicon.
+Batch MP3 → TXT transcription running fully local on Apple Silicon. Supports any language — Russian by default.
 
 ## How it works
 
@@ -81,4 +81,4 @@ Transcribed `.txt` files will appear in `output/` with the same filename as the 
 |---|---|---|
 | `large-v3-turbo` | ~1.6 GB | near large-v3 accuracy, faster |
 
-Language is set to Russian (`ru`). To change it, edit `language="ru"` in `transcribe.py`.
+Language is set in `config.json`. Default is Russian (`ru`). Change it to any [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `"en"`, `"de"`, `"fr"`).

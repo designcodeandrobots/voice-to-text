@@ -4,6 +4,7 @@ Transcribes all MP3 files from the input/ folder into TXT files in the output/ f
 Uses faster-whisper with the large-v3-turbo model.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -20,6 +21,9 @@ MODEL_REPO = "mobiuslabsgmbh/faster-whisper-large-v3-turbo"
 
 INPUT_DIR = Path("input")
 OUTPUT_DIR = Path("output")
+
+config = json.loads(Path("config.json").read_text())
+LANGUAGE = config.get("language", "ru")
 
 
 def download_model():
@@ -61,7 +65,7 @@ def main():
         output_path = OUTPUT_DIR / (audio_path.stem + ".txt")
 
         print(f"[{i}/{len(todo)}] Transcribing: {audio_path.name}")
-        segments, info = model.transcribe(str(audio_path), language="ru", beam_size=5)
+        segments, info = model.transcribe(str(audio_path), language=LANGUAGE, beam_size=5)
         texts = []
         with tqdm(total=round(info.duration), unit="sec", desc="  progress") as bar:
             pos = 0
