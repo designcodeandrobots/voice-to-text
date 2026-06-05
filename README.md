@@ -11,7 +11,7 @@ Batch MP3 → TXT transcription for Russian audio, running fully local on Apple 
 
 ## Requirements
 
-- macOS with Apple Silicon (M1/M2/M3/M4)
+- Any Mac with M chip
 - Python 3.10+
 
 ## Setup
