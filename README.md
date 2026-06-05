@@ -81,4 +81,31 @@ Transcribed `.txt` files will appear in `output/` with the same filename as the 
 |---|---|---|
 | `large-v3-turbo` | ~1.6 GB | near large-v3 accuracy, faster |
 
-Language is set in `config.json`. Default is Russian (`ru`). Change it to any [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `"en"`, `"de"`, `"fr"`).
+## Language
+
+Language is set in `config.json`. Default is Russian:
+
+```json
+{
+  "language": "ru"
+}
+```
+
+Change `"ru"` to any language code to switch. Whisper supports ~100 languages, including:
+
+| Language | Code |
+|---|---|
+| Russian | `ru` |
+| English | `en` |
+| Spanish | `es` |
+| French | `fr` |
+| German | `de` |
+| Italian | `it` |
+| Portuguese | `pt` |
+| Chinese | `zh` |
+| Japanese | `ja` |
+| Korean | `ko` |
+| Arabic | `ar` |
+| Ukrainian | `uk` |
+
+Full list of supported languages: [openai/whisper](https://github.com/openai/whisper#available-models-and-languages).
