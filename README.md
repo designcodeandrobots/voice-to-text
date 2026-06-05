@@ -14,26 +14,44 @@ Batch MP3 → TXT transcription for Russian audio, running fully local on Apple 
 - Any Mac with M chip
 - Python 3.10+
 
-## Setup
+## Installation
 
+**1. Clone the repo**
+```bash
+git clone https://github.com/designcodeandrobots/voice-to-text.git
+cd voice-to-text
+```
+
+**2. Create a virtual environment and install dependencies**
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install faster-whisper tqdm
 ```
 
-Download the model files from [mobiuslabsgmbh/faster-whisper-large-v3-turbo](https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo) and place them in the `models/` folder:
+**3. Download the model**
+
+Go to [mobiuslabsgmbh/faster-whisper-large-v3-turbo](https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo) on Hugging Face, open the **Files and versions** tab, and download these files into the `models/` folder:
 
 ```
 models/
-├── model.bin
+├── model.bin               ← ~1.5 GB, download this first
 ├── config.json
 ├── tokenizer.json
 ├── preprocessor_config.json
 └── vocabulary.json
 ```
 
+> Tip: use a download manager (e.g. Folx) for `model.bin` — it's large and benefits from multi-threaded downloading.
+
+**4. Create input and output folders**
+```bash
+mkdir input output
+```
+
 ## Usage
+
+Drop your `.mp3` files into `input/`, then run:
 
 **Option 1 — double-click:** run `run.command` in Finder.
 
@@ -42,7 +60,7 @@ models/
 caffeinate -i .venv/bin/python3 transcribe.py
 ```
 
-Drop your `.mp3` files into `input/` and transcribed `.txt` files will appear in `output/`.
+Transcribed `.txt` files will appear in `output/` with the same filename as the audio.
 
 ## Model
 
