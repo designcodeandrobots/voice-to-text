@@ -63,6 +63,39 @@ Edit `language="ru"` in the `model.transcribe()` call inside `transcribe.py`. Us
 
 Available faster-whisper models: `tiny`, `base`, `small`, `medium`, `large-v2`, `large-v3`, `large-v3-turbo`.
 
+## Recommended model: large-v3-turbo
+
+The recommended model is `large-v3-turbo` — it offers near large-v3 accuracy at roughly half the size (~1.6 GB). Two ways to get it:
+
+### 1.1 Download via script (automatic)
+
+Run the script once with `HF_TOKEN` set — it will download the model automatically:
+
+```bash
+export HF_TOKEN=your_huggingface_token
+caffeinate -i .venv/bin/python3 transcribe.py
+```
+
+Get a free token at [huggingface.co](https://huggingface.co) → Settings → Access Tokens → New token (Read role).
+
+> Note: without a token, downloads are rate-limited and may stall on large files.
+
+### 1.2 Download manually (recommended for large files)
+
+1. Go to [mobiuslabsgmbh/faster-whisper-large-v3-turbo](https://huggingface.co/mobiuslabsgmbh/faster-whisper-large-v3-turbo) on Hugging Face
+2. Open the **Files and versions** tab
+3. Download all files using a download manager (e.g. [Folx](https://www.mac-downloader.com) for macOS — uses multi-threaded downloading for much faster speeds on large files)
+4. Place all downloaded files into the `models/` folder:
+
+```
+models/
+├── model.bin               ← ~1.5 GB
+├── config.json
+├── tokenizer.json
+├── preprocessor_config.json
+└── vocabulary.json
+```
+
 ## run.command
 
 A macOS shell script that:
